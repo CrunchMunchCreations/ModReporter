@@ -8,7 +8,7 @@ data class CurrentModConfigurationPacket(
     val mods: Map<String, String>, // mod ID -> mod version
 ) : CustomPacketPayload {
     override fun type(): CustomPacketPayload.Type<out CustomPacketPayload> {
-        return ModReporterPackets.CLIENT_CONFIGURATION
+        return ModReporterPackets.MOD_CONFIGURATION
     }
 
     companion object {
