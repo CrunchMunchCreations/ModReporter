@@ -7,12 +7,12 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload
 import xyz.crunchmunch.mods.modreporter.ModReporter
 
 object ModReporterPackets {
-    val CLIENT_CONFIGURATION = registerS2C("client_configuration", CurrentClientConfigurationPacket.CODEC)
-    val MOD_CONFIGURATION = registerS2C("mod_configuration", CurrentModConfigurationPacket.CODEC)
+    val CLIENT_CONFIGURATION = registerC2S("client_configuration", CurrentClientConfigurationPacket.CODEC)
+    val MOD_CONFIGURATION = registerC2S("mod_configuration", CurrentModConfigurationPacket.CODEC)
 
-    fun <V : CustomPacketPayload> registerS2C(id: String, codec: StreamCodec<in RegistryFriendlyByteBuf, V>): CustomPacketPayload.Type<V> {
+    fun <V : CustomPacketPayload> registerC2S(id: String, codec: StreamCodec<in RegistryFriendlyByteBuf, V>): CustomPacketPayload.Type<V> {
         val type = CustomPacketPayload.Type<V>(ModReporter.id(id))
-        PayloadTypeRegistry.playS2C().register(type, codec)
+        PayloadTypeRegistry.playC2S().register(type, codec)
 
         return type
     }
