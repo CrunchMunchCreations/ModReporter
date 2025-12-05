@@ -1,0 +1,33 @@
+{
+    "schemaVersion": 1,
+    "id": "mod_reporter",
+    "version": "${version}",
+    "name": "Mod Reporter",
+    "description": "Notifies the server about the mods that are provided within the player's current modpack, alongside other useful debugging information. Useful for minigame event developers to determine what may be going wrong.",
+    "authors": [
+        "BluSpring"
+    ],
+    "contact": {
+        "sources": "https://github.com/CrunchMunchCreations/ModReporter"
+    },
+    "license": "MIT",
+    "icon": "assets/modreporter/icon.png",
+    "environment": "*",
+    "entrypoints": {
+        "client": [
+            "xyz.crunchmunch.mods.modreporter.client.ModReporterClient"
+        ],
+        "main": [
+            "xyz.crunchmunch.mods.modreporter.ModReporter"
+        ]
+    },
+    "mixins": [
+        "modreporter.mixins.json"
+    ],
+    "depends": {
+        "fabricloader": ">=${loader_version}",
+        "fabric-language-kotlin": ">=${kotlin_loader_version}",
+        "fabric-api": "*",
+        "minecraft": ">=${minecraft_version}"
+    }
+}
