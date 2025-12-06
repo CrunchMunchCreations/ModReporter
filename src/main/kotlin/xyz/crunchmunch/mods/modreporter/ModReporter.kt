@@ -5,13 +5,11 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.server.level.ServerPlayer
 import xyz.crunchmunch.mods.modreporter.packet.ModReporterPackets
 import java.util.*
 
 class ModReporter : ModInitializer {
-    val clientConfigurations = Collections.synchronizedMap(mutableMapOf<UUID, PlayerConfiguration>())
-    val modConfigurations = Collections.synchronizedMap(mutableMapOf<UUID, Map<String, String>>())
-
     override fun onInitialize() {
         ModReporterPackets.init()
 
@@ -45,6 +43,24 @@ class ModReporter : ModInitializer {
 
     companion object {
         const val MOD_ID = "mod_reporter"
+        val clientConfigurations = Collections.synchronizedMap(mutableMapOf<UUID, PlayerConfiguration>())
+        val modConfigurations = Collections.synchronizedMap(mutableMapOf<UUID, Map<String, String>>())
+
+        fun getModConfigurations(player: ServerPlayer, expectedModIds: Set<String>): UnusualModConfiguration? {
+            val modConfig = synchronized(this.modConfigurations) { this.modConfigurations[player.uuid] }
+                ?: return UnusualModConfiguration(true)
+
+            val missingMods = expectedModIds.toMutableSet()
+            val extraMods = mutableMapOf<String, String>()
+
+            for ((modId, version) in modConfig) {
+                if (!missingMods.remove(modId)) {
+                    extraMods[modId] = version
+                }
+            }
+
+            return UnusualModConfiguration(false, extraMods, missingMods)
+        }
 
         fun id(path: String): ResourceLocation {
             return ResourceLocation.fromNamespaceAndPath(MOD_ID, path)
