@@ -46,7 +46,7 @@ class ModReporter : ModInitializer {
         val clientConfigurations = Collections.synchronizedMap(mutableMapOf<UUID, PlayerConfiguration>())
         val modConfigurations = Collections.synchronizedMap(mutableMapOf<UUID, Map<String, String>>())
 
-        fun getModConfigurations(player: ServerPlayer, expectedModIds: Set<String>): UnusualModConfiguration? {
+        fun getModConfigurations(player: ServerPlayer, expectedModIds: Set<String>): UnusualModConfiguration {
             val modConfig = synchronized(this.modConfigurations) { this.modConfigurations[player.uuid] }
                 ?: return UnusualModConfiguration(true)
 
