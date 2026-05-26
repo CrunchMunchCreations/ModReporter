@@ -4,7 +4,7 @@ import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.resources.Identifier
 import net.minecraft.server.level.ServerPlayer
 import xyz.crunchmunch.mods.modreporter.packet.ModReporterPackets
 import java.util.*
@@ -62,8 +62,8 @@ class ModReporter : ModInitializer {
             return UnusualModConfiguration(false, extraMods, missingMods)
         }
 
-        fun id(path: String): ResourceLocation {
-            return ResourceLocation.fromNamespaceAndPath(MOD_ID, path)
+        fun id(path: String): Identifier {
+            return Identifier.fromNamespaceAndPath(MOD_ID, path)
         }
     }
 }
